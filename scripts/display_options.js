@@ -1,9 +1,25 @@
-const grades = ['primero', 'segundo', 'tercero', 'cuarto', 'quinto',
-    'sexto', 'septimo', 'octavo', 'noveno', 'decimo', 'once'];
-let gradesDictionary = new Map();
-for (let i = 0; i < grades.length; i++) {
-    gradesDictionary.set(i, grades[i]);
-}
+import * as functionsT3 from './functions.js';
+import { schoolJson } from '../data/data.js';
+
+let answerTemplate = new Map();
+answerTemplate.set(0, `El total de `);
+answerTemplate.set(1, `La media de totas las notas en `);
+answerTemplate.set(2, `La moda de las totas las notas en `);
+answerTemplate.set(3, `La mediana de totas las notas en `);
+answerTemplate.set(41, `El estudiante con mejor nota promedio en `);
+answerTemplate.set(42, `Los estudiante con mejor nota promedio en cada materia son: `);
+answerTemplate.set(5, `Un estudiante del grado seleccionado es: `);
+
+let answerTemplateOption = new Map();
+answerTemplateOption.set('colegio', `el colegio es: `);
+answerTemplateOption.set('primaria', `primaria es: `);
+answerTemplateOption.set('secundaria', `secundaria es: `);
+answerTemplateOption.set('grade', `el grado seleccionado es: `);
+answerTemplateOption.set('course', `los cursos seleccionados es: `);
+answerTemplateOption.set('estudiantes', `estudiantes en `);
+answerTemplateOption.set('niños', `niños en `);
+answerTemplateOption.set('niñas', `niñas en `);
+
 
 const checkSelectFunction = document.getElementById('select-function');
 if (document.body.contains(checkSelectFunction) == true) {
@@ -12,13 +28,13 @@ if (document.body.contains(checkSelectFunction) == true) {
 
     selectFunction.addEventListener('change', (eventFunctOpt1) => {
 
-        const selectedFunction = eventFunctOpt1.target.value;
+        const valueSelectOpt1 = eventFunctOpt1.target.value;
         const checkDivopt1 = document.getElementById('div-opt1');
         if (document.body.contains(checkDivopt1) == true) {
             const check2 = document.getElementById('form-function-selector')
             check2.removeChild(checkDivopt1);
         }
-        if (eventFunctOpt1.target.value != '') {
+        if (valueSelectOpt1 != '') {
             const divOption1 = document.createElement('div');
             divOption1.setAttribute('id', 'div-opt1');
 
@@ -34,7 +50,7 @@ if (document.body.contains(checkSelectFunction) == true) {
             divOption1.appendChild(labelOption1);
             divOption1.appendChild(selectOption1);
             // }
-            if (eventFunctOpt1.target.value == 'count-students') {
+            if (valueSelectOpt1 == 'count-students') {
                 labelOption1.innerText = `¿Donde deseas realizar el conteo de estudiantes?`;
 
                 const opt10 = document.createElement('option');
@@ -58,7 +74,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                 opt13.innerText = `Estudiantes de secundaria`;
                 selectOption1.appendChild(opt13);
             }
-            else if (eventFunctOpt1.target.value == 'calc-mean') {
+            else if (valueSelectOpt1 == 'calc-mean') {
                 labelOption1.innerText = `¿Donde deseas calcular la media?`;
 
                 const opt10 = document.createElement('option');
@@ -92,7 +108,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                 opt15.innerText = `Notas de cursos`;
                 selectOption1.appendChild(opt15);
             }
-            else if (eventFunctOpt1.target.value == 'calc-mode') {
+            else if (valueSelectOpt1 == 'calc-mode') {
                 labelOption1.innerText = `¿Donde deseas calcular la moda?`;
 
                 const opt10 = document.createElement('option');
@@ -126,7 +142,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                 opt15.innerText = `Notas de cursos`;
                 selectOption1.appendChild(opt15);
             }
-            else if (eventFunctOpt1.target.value == 'calc-median') {
+            else if (valueSelectOpt1 == 'calc-median') {
                 labelOption1.innerText = `¿Donde deseas calcular la media?`;
 
                 const opt10 = document.createElement('option');
@@ -160,7 +176,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                 opt15.innerText = `Notas de cursos`;
                 selectOption1.appendChild(opt15);
             }
-            else if (eventFunctOpt1.target.value == 'show-best-scores') {
+            else if (valueSelectOpt1 == 'show-best-scores') {
                 labelOption1.innerText = `¿Las notas de qué estudiante deseas ver?`;
 
                 const opt10 = document.createElement('option');
@@ -199,7 +215,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                 opt16.innerText = `Estudiantes con mejor nota promedio en cada materia `;
                 selectOption1.appendChild(opt16);
             }
-            else if (eventFunctOpt1.target.value == 'show-student') {
+            else if (valueSelectOpt1 == 'show-student') {
                 // const labelOption1 = document.createElement('label');
                 // labelOption1.setAttribute('for', 'func-opt1');
 
@@ -234,7 +250,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                 selectOption1.appendChild(opt13);
 
                 const opt14 = document.createElement('option');
-                opt14.setAttribute('value', 'Cuarto')
+                opt14.setAttribute('value', 'cuarto')
                 opt14.innerText = `Cuarto`;
                 selectOption1.appendChild(opt14);
 
@@ -280,7 +296,7 @@ if (document.body.contains(checkSelectFunction) == true) {
 
                 selectFunctionOpt1.addEventListener('change', (eventFunctOpt2) => {
 
-                    const selectedFunctOpt2 = eventFunctOpt2.target.value;
+                    const valueSelectOpt2 = eventFunctOpt2.target.value;
 
                     const checkDivOpt2 = document.getElementById('div-opt2');
                     if ((document.body.contains(checkDivOpt2) == true)) {
@@ -288,14 +304,14 @@ if (document.body.contains(checkSelectFunction) == true) {
                         check2.removeChild(checkDivOpt2);
                     }
 
-                    if (eventFunctOpt2.target.value != '') {
+                    if (valueSelectOpt2 != '') {
                         const divOption2 = document.createElement('div');
                         divOption2.setAttribute('id', 'div-opt2');
 
                         const divOption1 = document.getElementById('div-opt1');
                         divOption1.appendChild(divOption2);
 
-                        if (eventFunctOpt1.target.value == 'count-students') {
+                        if (valueSelectOpt1 == 'count-students') {
                             const labelOption2 = document.createElement('label');
                             labelOption2.setAttribute('for', 'func-opt2');
 
@@ -320,17 +336,17 @@ if (document.body.contains(checkSelectFunction) == true) {
                             selectOption2.appendChild(opt21);
 
                             const opt22 = document.createElement('option');
-                            opt22.setAttribute('value', 'male')
+                            opt22.setAttribute('value', 'niños')
                             opt22.innerText = `Si, contar solo niños`;
                             selectOption2.appendChild(opt22);
 
                             const opt33 = document.createElement('option');
-                            opt33.setAttribute('value', 'female')
+                            opt33.setAttribute('value', 'niñas')
                             opt33.innerText = `Si, contar solo niñas`;
                             selectOption2.appendChild(opt33);
                         }
-                        else if (eventFunctOpt1.target.value == 'calc-mean') {
-                            if ((eventFunctOpt2.target.value == 'colegio') || (eventFunctOpt2.target.value == 'primaria') || (eventFunctOpt2.target.value == 'secundaria')) {
+                        else if (valueSelectOpt1 == 'calc-mean') {
+                            if ((valueSelectOpt2 == 'colegio') || (valueSelectOpt2 == 'primaria') || (valueSelectOpt2 == 'secundaria')) {
 
                                 const divShowButton = document.getElementById('div-Show-Button');
                                 if ((document.body.contains(divShowButton) == false)) {
@@ -344,7 +360,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                     divSubButton.appendChild(subButton);
                                 }
                             }
-                            else if (eventFunctOpt2.target.value == 'grade') {
+                            else if (valueSelectOpt2 == 'grade') {
                                 const labelOption2 = document.createElement('label');
                                 labelOption2.setAttribute('for', 'func-opt2');
 
@@ -379,7 +395,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 selectOption2.appendChild(opt23);
 
                                 const opt24 = document.createElement('option');
-                                opt24.setAttribute('value', 'Cuarto')
+                                opt24.setAttribute('value', 'cuarto')
                                 opt24.innerText = `Cuarto`;
                                 selectOption2.appendChild(opt24);
 
@@ -418,7 +434,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 opt211.innerText = `Once`;
                                 selectOption2.appendChild(opt211);
                             }
-                            else if (eventFunctOpt2.target.value == 'course') {
+                            else if (valueSelectOpt2 == 'course') {
                                 const labelOption2 = document.createElement('label');
                                 labelOption2.setAttribute('for', 'func-opt2');
 
@@ -448,8 +464,8 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 selectOption2.appendChild(opt22);
                             }
                         }
-                        else if (eventFunctOpt1.target.value == 'calc-mode') {
-                            if ((eventFunctOpt2.target.value == 'colegio') || (eventFunctOpt2.target.value == 'primaria') || (eventFunctOpt2.target.value == 'secundaria')) {
+                        else if (valueSelectOpt1 == 'calc-mode') {
+                            if ((valueSelectOpt2 == 'colegio') || (valueSelectOpt2 == 'primaria') || (valueSelectOpt2 == 'secundaria')) {
                                 const divShowButton = document.getElementById('div-Show-Button');
                                 if ((document.body.contains(divShowButton) == false)) {
                                     const divSubButton = document.createElement('div');
@@ -462,7 +478,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                     divSubButton.appendChild(subButton);
                                 }
                             }
-                            else if (eventFunctOpt2.target.value == 'grade') {
+                            else if (valueSelectOpt2 == 'grade') {
                                 const labelOption2 = document.createElement('label');
                                 labelOption2.setAttribute('for', 'func-opt2');
 
@@ -497,7 +513,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 selectOption2.appendChild(opt23);
 
                                 const opt24 = document.createElement('option');
-                                opt24.setAttribute('value', 'Cuarto')
+                                opt24.setAttribute('value', 'cuarto')
                                 opt24.innerText = `Cuarto`;
                                 selectOption2.appendChild(opt24);
 
@@ -536,7 +552,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 opt211.innerText = `Once`;
                                 selectOption2.appendChild(opt211);
                             }
-                            else if (eventFunctOpt2.target.value == 'course') {
+                            else if (valueSelectOpt2 == 'course') {
                                 const labelOption2 = document.createElement('label');
                                 labelOption2.setAttribute('for', 'func-opt2');
 
@@ -566,8 +582,8 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 selectOption2.appendChild(opt22);
                             }
                         }
-                        else if (eventFunctOpt1.target.value == 'calc-median') {
-                            if ((eventFunctOpt2.target.value == 'colegio') || (eventFunctOpt2.target.value == 'primaria') || (eventFunctOpt2.target.value == 'secundaria')) {
+                        else if (valueSelectOpt1 == 'calc-median') {
+                            if ((valueSelectOpt2 == 'colegio') || (valueSelectOpt2 == 'primaria') || (valueSelectOpt2 == 'secundaria')) {
                                 const divShowButton = document.getElementById('div-Show-Button');
                                 if ((document.body.contains(divShowButton) == false)) {
                                     const divSubButton = document.createElement('div');
@@ -580,7 +596,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                     divSubButton.appendChild(subButton);
                                 }
                             }
-                            else if (eventFunctOpt2.target.value == 'grade') {
+                            else if (valueSelectOpt2 == 'grade') {
                                 const labelOption2 = document.createElement('label');
                                 labelOption2.setAttribute('for', 'func-opt2');
 
@@ -615,7 +631,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 selectOption2.appendChild(opt23);
 
                                 const opt24 = document.createElement('option');
-                                opt24.setAttribute('value', 'Cuarto')
+                                opt24.setAttribute('value', 'cuarto')
                                 opt24.innerText = `Cuarto`;
                                 selectOption2.appendChild(opt24);
 
@@ -654,7 +670,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 opt211.innerText = `Once`;
                                 selectOption2.appendChild(opt211);
                             }
-                            else if (eventFunctOpt2.target.value == 'course') {
+                            else if (valueSelectOpt2 == 'course') {
                                 const labelOption2 = document.createElement('label');
                                 labelOption2.setAttribute('for', 'func-opt2');
 
@@ -684,8 +700,8 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 selectOption2.appendChild(opt22);
                             }
                         }
-                        else if (eventFunctOpt1.target.value == 'show-best-scores') {
-                            if ((eventFunctOpt2.target.value == 'colegio') || (eventFunctOpt2.target.value == 'primaria') || (eventFunctOpt2.target.value == 'secundaria') || (eventFunctOpt2.target.value == 'subjects')) {
+                        else if (valueSelectOpt1 == 'show-best-scores') {
+                            if ((valueSelectOpt2 == 'colegio') || (valueSelectOpt2 == 'primaria') || (valueSelectOpt2 == 'secundaria') || (valueSelectOpt2 == 'subjects')) {
                                 const divShowButton = document.getElementById('div-Show-Button');
                                 if ((document.body.contains(divShowButton) == false)) {
                                     const divSubButton = document.createElement('div');
@@ -698,7 +714,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                     divSubButton.appendChild(subButton);
                                 }
                             }
-                            else if (eventFunctOpt2.target.value == 'grade') {
+                            else if (valueSelectOpt2 == 'grade') {
                                 const labelOption2 = document.createElement('label');
                                 labelOption2.setAttribute('for', 'func-opt2');
 
@@ -733,7 +749,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 selectOption2.appendChild(opt23);
 
                                 const opt24 = document.createElement('option');
-                                opt24.setAttribute('value', 'Cuarto')
+                                opt24.setAttribute('value', 'cuarto')
                                 opt24.innerText = `Cuarto`;
                                 selectOption2.appendChild(opt24);
 
@@ -772,7 +788,7 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 opt211.innerText = `Once`;
                                 selectOption2.appendChild(opt211);
                             }
-                            else if (eventFunctOpt2.target.value == 'course') {
+                            else if (valueSelectOpt2 == 'course') {
                                 const labelOption2 = document.createElement('label');
                                 labelOption2.setAttribute('for', 'func-opt2');
 
@@ -803,8 +819,8 @@ if (document.body.contains(checkSelectFunction) == true) {
                             }
 
                         }
-                        else if (eventFunctOpt1.target.value == 'show-student') {
-                            if (eventFunctOpt2.target.value != '') {
+                        else if (valueSelectOpt1 == 'show-student') {
+                            if (valueSelectOpt2 != '') {
                                 const divShowButton = document.getElementById('div-Show-Button');
                                 if ((document.body.contains(divShowButton) == false)) {
                                     const divSubButton = document.createElement('div');
@@ -821,13 +837,11 @@ if (document.body.contains(checkSelectFunction) == true) {
 
                         const checkFunctOpt2 = document.getElementById('func-opt2');
                         if ((document.body.contains(checkFunctOpt2) == true)) {
-
-
                             const selectFunctionOpt2 = document.querySelector('#func-opt2');
 
                             selectFunctionOpt2.addEventListener('change', (eventFunctOpt3) => {
-                                const selectedFunctOpt2 = eventFunctOpt3.target.value;
-                                if (eventFunctOpt3.target.value != '') {
+                                const valueSelectOpt3 = eventFunctOpt3.target.value;
+                                if (valueSelectOpt3 != '') {
                                     const divShowButton = document.getElementById('div-Show-Button');
                                     if ((document.body.contains(divShowButton) == false)) {
                                         const divSubButton = document.createElement('div');
@@ -842,31 +856,145 @@ if (document.body.contains(checkSelectFunction) == true) {
                                 }
                                 const checkShowButton = document.getElementById('show-button');
                                 if ((document.body.contains(checkShowButton) == true)) {
-                                    console.log('button exists');
+
                                     const showResults = document.querySelector('#show-button');
                                     showResults.addEventListener('click', (eventShowResults) => {
-                                        console.log(eventFunctOpt1.target.value);
-                                        console.log(eventFunctOpt2.target.value);
-                                        console.log(eventFunctOpt3.target.value);
-                                    });
+
+                                        const checkDivShowResults = document.getElementById('div-Show-Results');
+                                        if (document.body.contains(checkDivShowResults)) {
+                                            document.body.removeChild(checkDivShowResults);
+                                        }
+                                        const divShowResults = document.createElement('div');
+                                        divShowResults.setAttribute('id', 'div-show-results');
+
+                                        const pAnswerTemplate = document.createElement('p');
+                                        pAnswerTemplate.setAttribute('id', 'p-answer-template');
+
+                                        const pResult = document.createElement('p');
+                                        pResult.setAttribute('id', 'p-result');
+
+                                        divShowResults.appendChild(pAnswerTemplate);
+                                        divShowResults.appendChild(pResult);
+
+                                        document.body.appendChild(divShowResults);
+
+                                        let answerText;
+                                        if (valueSelectOpt1 == 'count-students') {
+                                            answerText = answerTemplate.get(0);
+                                            if (valueSelectOpt3 == 'any') {
+                                                answerText += answerTemplateOption.get('estudiantes');
+                                            }
+                                            else if (valueSelectOpt3 == 'niños') {
+                                                answerText += answerTemplateOption.get('niños');
+                                            }
+                                            else if (valueSelectOpt3 == 'niñas') {
+                                                answerText += answerTemplateOption.get('niñas');
+                                            }
+
+                                            if (valueSelectOpt2 == 'colegio') {
+                                                answerText += answerTemplateOption.get('colegio');
+                                            }
+                                            else if (valueSelectOpt2 == 'primaria') {
+                                                answerText += answerTemplateOption.get('primaria');
+                                            }
+                                            else if (valueSelectOpt2 == 'secundaria') {
+                                                answerText += answerTemplateOption.get('secundaria');
+                                            }
+                                            let gender = (valueSelectOpt3 == 'any') ? undefined : valueSelectOpt3;
+                                            console.log(`${answerText} ${functionsT3.countStudents(schoolJson, valueSelectOpt2, gender)}`)
+                                        }
+                                        else if (valueSelectOpt1 == 'calc-mean') {
+
+                                            answerText = answerTemplate.get(1);
+                                            answerText += answerTemplateOption.get(valueSelectOpt2);
+                                            console.log(`${answerText} ${functionsT3.getMean(schoolJson, valueSelectOpt3)}`);
+                                        }
+                                        else if (valueSelectOpt1 == 'calc-mode') {
+
+                                            answerText = answerTemplate.get(2);
+                                            answerText += answerTemplateOption.get(valueSelectOpt2);
+                                            console.log(`${answerText} ${functionsT3.getMode(schoolJson, valueSelectOpt3)}`);
+                                        }
+                                        else if (valueSelectOpt1 == 'calc-median') {
+
+                                            answerText = answerTemplate.get(3);
+                                            answerText += answerTemplateOption.get(valueSelectOpt2);
+                                            console.log(`${answerText} ${functionsT3.getMedian(schoolJson, valueSelectOpt3)}`);
+                                        }
+                                        else if (valueSelectOpt1 == 'show-best-scores') {
+                                            answerText = answerTemplate.get(41);
+                                            answerText += answerTemplateOption.get(valueSelectOpt2);
+                                            console.log(`${answerText}`, functionsT3.getStudentHigherAvgScore(schoolJson, valueSelectOpt3));
+                                        }
+
+                                    }, { once: true });
                                 }
                             });
                         }
                         const checkShowButton = document.getElementById('show-button');
                         if ((document.body.contains(checkShowButton) == true)) {
-                            console.log('button exists');
                             const showResults = document.querySelector('#show-button');
                             showResults.addEventListener('click', (eventShowResults) => {
-                                console.log(eventFunctOpt1.target.value);
-                                console.log(eventFunctOpt2.target.value);
-                            });
+                                const checkDivShowResults = document.getElementById('div-Show-Results');
+                                if (document.body.contains(checkDivShowResults)) {
+                                    document.body.removeChild(checkDivShowResults);
+                                }
+                                const divShowResults = document.createElement('div');
+                                divShowResults.setAttribute('id', 'div-show-results');
+
+                                const pAnswerTemplate = document.createElement('p');
+                                pAnswerTemplate.setAttribute('id', 'p-answer-template');
+
+                                const pResult = document.createElement('p');
+                                pResult.setAttribute('id', 'p-result');
+
+                                divShowResults.appendChild(pAnswerTemplate);
+                                divShowResults.appendChild(pResult);
+
+                                document.body.appendChild(divShowResults);
+
+                                let answerText;
+                                if (valueSelectOpt1 == 'calc-mean') {
+
+                                    answerText = answerTemplate.get(1);
+                                    answerText += answerTemplateOption.get(valueSelectOpt2);
+                                    console.log(`${answerText} ${functionsT3.getMean(schoolJson, valueSelectOpt2)}`);
+                                }
+                                else if (valueSelectOpt1 == 'calc-mode') {
+
+                                    answerText = answerTemplate.get(2);
+                                    answerText += answerTemplateOption.get(valueSelectOpt2);
+                                    console.log(`${answerText} ${functionsT3.getMode(schoolJson, valueSelectOpt2)}`);
+                                }
+                                else if (valueSelectOpt1 == 'calc-median') {
+
+                                    answerText = answerTemplate.get(3);
+                                    answerText += answerTemplateOption.get(valueSelectOpt2);
+                                    console.log(`${answerText} ${functionsT3.getMedian(schoolJson, valueSelectOpt2)}`);
+                                }
+                                else if (valueSelectOpt1 == 'show-best-scores') {
+                                    if (valueSelectOpt2 == 'subjects') {
+                                        answerText = answerTemplate.get(42);
+                                        console.log(`${answerText}`, functionsT3.getHigherScoresBySubject(schoolJson));
+                                    }
+                                    else {
+                                        answerText = answerTemplate.get(41);
+                                        answerText += answerTemplateOption.get(valueSelectOpt2);
+                                        console.log(`${answerText}`, functionsT3.getStudentHigherAvgScore(schoolJson, valueSelectOpt2));
+                                    }
+                                }
+                                else if (valueSelectOpt1 == 'show-student') {
+                                    answerText = answerTemplate.get(5);
+                                    console.log(`${answerText}`, functionsT3.getStudentOfGrade(schoolJson, valueSelectOpt2));
+                                }
+                            }, { once: true });
                         }
                     }
                 });
             }
         }
     });
-
 }
 
 
+//console.log(answerTemplate.get(0),answerTemplateOption.get('niños'),answerTemplateOption.get('colegio'))
