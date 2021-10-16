@@ -859,7 +859,6 @@ if (document.body.contains(checkSelectFunction) == true) {
                             showResults.addEventListener('click', (eventShowResults) => {
                                 console.log(eventFunctOpt1.target.value);
                                 console.log(eventFunctOpt2.target.value);
-                                // console.log(eventFunctOpt3.target.value);
                             });
                         }
                     }
