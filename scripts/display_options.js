@@ -332,14 +332,14 @@ if (document.body.contains(checkSelectFunction) == true) {
                         else if (eventFunctOpt1.target.value == 'calc-mean') {
                             if ((eventFunctOpt2.target.value == 'colegio') || (eventFunctOpt2.target.value == 'primaria') || (eventFunctOpt2.target.value == 'secundaria')) {
 
-                                const divButtonMostrar = document.getElementById('divButtonMostrar');
-                                if ((document.body.contains(divButtonMostrar) == false)) {
+                                const divShowButton = document.getElementById('div-Show-Button');
+                                if ((document.body.contains(divShowButton) == false)) {
                                     const divSubButton = document.createElement('div');
-                                    divSubButton.setAttribute('id', 'divButtonMostrar');
+                                    divSubButton.setAttribute('id', 'div-Show-Button');
                                     const subButton = document.createElement('input');
                                     subButton.setAttribute('type', 'button');
                                     subButton.setAttribute('value', 'mostrar resultado');
-                                    subButton.setAttribute('id', 'submit-button');
+                                    subButton.setAttribute('id', 'show-button');
                                     divOption2.appendChild(divSubButton);
                                     divSubButton.appendChild(subButton);
                                 }
@@ -450,14 +450,14 @@ if (document.body.contains(checkSelectFunction) == true) {
                         }
                         else if (eventFunctOpt1.target.value == 'calc-mode') {
                             if ((eventFunctOpt2.target.value == 'colegio') || (eventFunctOpt2.target.value == 'primaria') || (eventFunctOpt2.target.value == 'secundaria')) {
-                                const divButtonMostrar = document.getElementById('divButtonMostrar');
-                                if ((document.body.contains(divButtonMostrar) == false)) {
+                                const divShowButton = document.getElementById('div-Show-Button');
+                                if ((document.body.contains(divShowButton) == false)) {
                                     const divSubButton = document.createElement('div');
-                                    divSubButton.setAttribute('id', 'divButtonMostrar');
+                                    divSubButton.setAttribute('id', 'div-Show-Button');
                                     const subButton = document.createElement('input');
                                     subButton.setAttribute('type', 'button');
                                     subButton.setAttribute('value', 'mostrar resultado');
-                                    subButton.setAttribute('id', 'submit-button');
+                                    subButton.setAttribute('id', 'show-button');
                                     divOption2.appendChild(divSubButton);
                                     divSubButton.appendChild(subButton);
                                 }
@@ -568,14 +568,14 @@ if (document.body.contains(checkSelectFunction) == true) {
                         }
                         else if (eventFunctOpt1.target.value == 'calc-median') {
                             if ((eventFunctOpt2.target.value == 'colegio') || (eventFunctOpt2.target.value == 'primaria') || (eventFunctOpt2.target.value == 'secundaria')) {
-                                const divButtonMostrar = document.getElementById('divButtonMostrar');
-                                if ((document.body.contains(divButtonMostrar) == false)) {
+                                const divShowButton = document.getElementById('div-Show-Button');
+                                if ((document.body.contains(divShowButton) == false)) {
                                     const divSubButton = document.createElement('div');
-                                    divSubButton.setAttribute('id', 'divButtonMostrar');
+                                    divSubButton.setAttribute('id', 'div-Show-Button');
                                     const subButton = document.createElement('input');
                                     subButton.setAttribute('type', 'button');
                                     subButton.setAttribute('value', 'mostrar resultado');
-                                    subButton.setAttribute('id', 'submit-button');
+                                    subButton.setAttribute('id', 'show-button');
                                     divOption2.appendChild(divSubButton);
                                     divSubButton.appendChild(subButton);
                                 }
@@ -686,14 +686,14 @@ if (document.body.contains(checkSelectFunction) == true) {
                         }
                         else if (eventFunctOpt1.target.value == 'show-best-scores') {
                             if ((eventFunctOpt2.target.value == 'colegio') || (eventFunctOpt2.target.value == 'primaria') || (eventFunctOpt2.target.value == 'secundaria') || (eventFunctOpt2.target.value == 'subjects')) {
-                                const divButtonMostrar = document.getElementById('divButtonMostrar');
-                                if ((document.body.contains(divButtonMostrar) == false)) {
+                                const divShowButton = document.getElementById('div-Show-Button');
+                                if ((document.body.contains(divShowButton) == false)) {
                                     const divSubButton = document.createElement('div');
-                                    divSubButton.setAttribute('id', 'divButtonMostrar');
+                                    divSubButton.setAttribute('id', 'div-Show-Button');
                                     const subButton = document.createElement('input');
                                     subButton.setAttribute('type', 'button');
                                     subButton.setAttribute('value', 'mostrar resultado');
-                                    subButton.setAttribute('id', 'submit-button');
+                                    subButton.setAttribute('id', 'show-button');
                                     divOption2.appendChild(divSubButton);
                                     divSubButton.appendChild(subButton);
                                 }
@@ -805,14 +805,14 @@ if (document.body.contains(checkSelectFunction) == true) {
                         }
                         else if (eventFunctOpt1.target.value == 'show-student') {
                             if (eventFunctOpt2.target.value != '') {
-                                const divButtonMostrar = document.getElementById('divButtonMostrar');
-                                if ((document.body.contains(divButtonMostrar) == false)) {
+                                const divShowButton = document.getElementById('div-Show-Button');
+                                if ((document.body.contains(divShowButton) == false)) {
                                     const divSubButton = document.createElement('div');
-                                    divSubButton.setAttribute('id', 'divButtonMostrar');
+                                    divSubButton.setAttribute('id', 'div-Show-Button');
                                     const subButton = document.createElement('input');
                                     subButton.setAttribute('type', 'button');
                                     subButton.setAttribute('value', 'mostrar resultado');
-                                    subButton.setAttribute('id', 'submit-button');
+                                    subButton.setAttribute('id', 'show-button');
                                     divOption2.appendChild(divSubButton);
                                     divSubButton.appendChild(subButton);
                                 }
@@ -825,21 +825,41 @@ if (document.body.contains(checkSelectFunction) == true) {
 
                             const selectFunctionOpt2 = document.querySelector('#func-opt2');
 
-                            selectFunctionOpt2.addEventListener('change', (eventFunctOpt2) => {
-                                const selectedFunctOpt2 = eventFunctOpt2.target.value;
-                                if (eventFunctOpt2.target.value != '') {
-                                    const divButtonMostrar = document.getElementById('divButtonMostrar');
-                                    if ((document.body.contains(divButtonMostrar) == false)) {
+                            selectFunctionOpt2.addEventListener('change', (eventFunctOpt3) => {
+                                const selectedFunctOpt2 = eventFunctOpt3.target.value;
+                                if (eventFunctOpt3.target.value != '') {
+                                    const divShowButton = document.getElementById('div-Show-Button');
+                                    if ((document.body.contains(divShowButton) == false)) {
                                         const divSubButton = document.createElement('div');
-                                        divSubButton.setAttribute('id', 'divButtonMostrar');
+                                        divSubButton.setAttribute('id', 'div-Show-Button');
                                         const subButton = document.createElement('input');
                                         subButton.setAttribute('type', 'button');
                                         subButton.setAttribute('value', 'mostrar resultado');
-                                        subButton.setAttribute('id', 'submit-button');
+                                        subButton.setAttribute('id', 'show-button');
                                         divOption2.appendChild(divSubButton);
                                         divSubButton.appendChild(subButton);
                                     }
                                 }
+                                const checkShowButton = document.getElementById('show-button');
+                                if ((document.body.contains(checkShowButton) == true)) {
+                                    console.log('button exists');
+                                    const showResults = document.querySelector('#show-button');
+                                    showResults.addEventListener('click', (eventShowResults) => {
+                                        console.log(eventFunctOpt1.target.value);
+                                        console.log(eventFunctOpt2.target.value);
+                                        console.log(eventFunctOpt3.target.value);
+                                    });
+                                }
+                            });
+                        }
+                        const checkShowButton = document.getElementById('show-button');
+                        if ((document.body.contains(checkShowButton) == true)) {
+                            console.log('button exists');
+                            const showResults = document.querySelector('#show-button');
+                            showResults.addEventListener('click', (eventShowResults) => {
+                                console.log(eventFunctOpt1.target.value);
+                                console.log(eventFunctOpt2.target.value);
+                                // console.log(eventFunctOpt3.target.value);
                             });
                         }
                     }
