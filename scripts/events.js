@@ -1,28 +1,57 @@
 import * as functionsT3 from './functions.js';
 import { schoolJson } from '../data/data.js';
 
-let answerTemplate = new Map();
-answerTemplate.set(0, `El total de `);
-answerTemplate.set(1, `La media de totas las notas en `);
-answerTemplate.set(2, `La moda de las totas las notas en `);
-answerTemplate.set(3, `La mediana de totas las notas en `);
-answerTemplate.set(41, `El estudiante con mejor nota promedio en `);
-answerTemplate.set(42, `Los estudiante con mejor nota promedio en cada materia son: `);
-answerTemplate.set(5, `Un estudiante del grado seleccionado es: `);
+function printObject(object, divContainerId) {
+    const divContainer = document.getElementById(divContainerId);
+    let objectKeys = Object.keys(object);
+    for (let key in objectKeys) {
+        if (typeof object[objectKeys[key]] == 'object') {
+            const pObjectKey = document.createElement('p');
+            pObjectKey.setAttribute('class', 'object-key1');
+            pObjectKey.innerText = objectKeys[key];
+            divContainer.appendChild(pObjectKey);
 
-let answerTemplateOption = new Map();
-answerTemplateOption.set('colegio', `el colegio es: `);
-answerTemplateOption.set('primaria', `primaria es: `);
-answerTemplateOption.set('secundaria', `secundaria es: `);
-answerTemplateOption.set('grade', `el grado seleccionado es: `);
-answerTemplateOption.set('course', `los cursos seleccionados es: `);
-answerTemplateOption.set('estudiantes', `estudiantes en `);
-answerTemplateOption.set('niños', `niños en `);
-answerTemplateOption.set('niñas', `niñas en `);
+            printObject(object[objectKeys[key]], divContainerId);
+        }
+        else {
+            const pObject = document.createElement('p');
+            const spanObjectKey = document.createElement('span');
+            spanObjectKey.setAttribute('class', 'object-key2');
+            spanObjectKey.innerText = `${objectKeys[key]}: `;
+            
+            const spanObjectValue = document.createElement('span');
+            spanObjectValue.setAttribute('class', 'object-value');
+            spanObjectValue.innerText = `${object[objectKeys[key]]}`;
+            
+            pObject.appendChild(spanObjectKey);
+            pObject.appendChild(spanObjectValue);
+            divContainer.appendChild(pObject);
+        }
+    }
+}
 
 
 const checkSelectFunction = document.getElementById('select-function');
 if (document.body.contains(checkSelectFunction) == true) {
+ 
+    let answerTemplate = new Map();
+    answerTemplate.set(0, `El total de `);
+    answerTemplate.set(1, `La media de totas las notas en `);
+    answerTemplate.set(2, `La moda de las totas las notas en `);
+    answerTemplate.set(3, `La mediana de totas las notas en `);
+    answerTemplate.set(41, `El estudiante con mejor nota promedio en `);
+    answerTemplate.set(42, `Los estudiante con mejor nota promedio en cada materia son: `);
+    answerTemplate.set(5, `Un estudiante de grado `);
+    
+    let answerTemplateOption = new Map();
+    answerTemplateOption.set('colegio', `el colegio es: `);
+    answerTemplateOption.set('primaria', `primaria es: `);
+    answerTemplateOption.set('secundaria', `secundaria es: `);
+    answerTemplateOption.set('grade', `grado `);
+    answerTemplateOption.set('course', `los cursos `);
+    answerTemplateOption.set('estudiantes', `estudiantes en `);
+    answerTemplateOption.set('niños', `niños en `);
+    answerTemplateOption.set('niñas', `niñas en `);
 
     const selectFunction = document.querySelector('#select-function');
 
@@ -49,7 +78,7 @@ if (document.body.contains(checkSelectFunction) == true) {
             formFunctionSelector.appendChild(divOption1);
             divOption1.appendChild(labelOption1);
             divOption1.appendChild(selectOption1);
-            // }
+            
             if (valueSelectOpt1 == 'count-students') {
                 labelOption1.innerText = `¿Donde deseas realizar el conteo de estudiantes?`;
 
@@ -216,15 +245,6 @@ if (document.body.contains(checkSelectFunction) == true) {
                 selectOption1.appendChild(opt16);
             }
             else if (valueSelectOpt1 == 'show-student') {
-                // const labelOption1 = document.createElement('label');
-                // labelOption1.setAttribute('for', 'func-opt1');
-
-                // const selectOption1 = document.createElement('select');
-                // selectOption1.setAttribute('name', 'func-opt');
-                // selectOption1.setAttribute('id', 'func-opt1');
-
-                // divOption1.appendChild(labelOption1);
-                // divOption1.appendChild(selectOption1);
 
                 labelOption1.innerText = `¿Un estudiante de que grado deseas ver?`;
 
@@ -860,25 +880,22 @@ if (document.body.contains(checkSelectFunction) == true) {
                                     const showResults = document.querySelector('#show-button');
                                     showResults.addEventListener('click', (eventShowResults) => {
 
-                                        const checkDivShowResults = document.getElementById('div-Show-Results');
+                                        const checkDivShowResults = document.getElementById('div-show-results');
                                         if (document.body.contains(checkDivShowResults)) {
                                             document.body.removeChild(checkDivShowResults);
                                         }
                                         const divShowResults = document.createElement('div');
                                         divShowResults.setAttribute('id', 'div-show-results');
 
-                                        const pAnswerTemplate = document.createElement('p');
-                                        pAnswerTemplate.setAttribute('id', 'p-answer-template');
+                                        const spanAnswerTemplate = document.createElement('span');
+                                        spanAnswerTemplate.setAttribute('id', 'span-answer-template');
 
-                                        const pResult = document.createElement('p');
-                                        pResult.setAttribute('id', 'p-result');
-
-                                        divShowResults.appendChild(pAnswerTemplate);
-                                        divShowResults.appendChild(pResult);
+                                        divShowResults.appendChild(spanAnswerTemplate);
 
                                         document.body.appendChild(divShowResults);
 
                                         let answerText;
+                                        let result;
                                         if (valueSelectOpt1 == 'count-students') {
                                             answerText = answerTemplate.get(0);
                                             if (valueSelectOpt3 == 'any') {
@@ -901,31 +918,48 @@ if (document.body.contains(checkSelectFunction) == true) {
                                                 answerText += answerTemplateOption.get('secundaria');
                                             }
                                             let gender = (valueSelectOpt3 == 'any') ? undefined : valueSelectOpt3;
-                                            console.log(`${answerText} ${functionsT3.countStudents(schoolJson, valueSelectOpt2, gender)}`)
+                                            result = functionsT3.countStudents(schoolJson, valueSelectOpt2, gender);
                                         }
-                                        else if (valueSelectOpt1 == 'calc-mean') {
+                                        else if(valueSelectOpt1 == 'calc-mean') {
 
                                             answerText = answerTemplate.get(1);
-                                            answerText += answerTemplateOption.get(valueSelectOpt2);
-                                            console.log(`${answerText} ${functionsT3.getMean(schoolJson, valueSelectOpt3)}`);
+                                            answerText += `${answerTemplateOption.get(valueSelectOpt2)} ${valueSelectOpt3} es: `;
+                                            
+                                            result = functionsT3.getMean(schoolJson, valueSelectOpt3);
                                         }
                                         else if (valueSelectOpt1 == 'calc-mode') {
 
                                             answerText = answerTemplate.get(2);
-                                            answerText += answerTemplateOption.get(valueSelectOpt2);
-                                            console.log(`${answerText} ${functionsT3.getMode(schoolJson, valueSelectOpt3)}`);
+                                            answerText += `${answerTemplateOption.get(valueSelectOpt2)} ${valueSelectOpt3} es: `;
+                                            
+                                            result = functionsT3.getMode(schoolJson, valueSelectOpt3);
                                         }
                                         else if (valueSelectOpt1 == 'calc-median') {
 
                                             answerText = answerTemplate.get(3);
-                                            answerText += answerTemplateOption.get(valueSelectOpt2);
-                                            console.log(`${answerText} ${functionsT3.getMedian(schoolJson, valueSelectOpt3)}`);
+                                            answerText += `${answerTemplateOption.get(valueSelectOpt2)} ${valueSelectOpt3} es: `;
+
+                                            result = functionsT3.getMedian(schoolJson, valueSelectOpt3);
                                         }
                                         else if (valueSelectOpt1 == 'show-best-scores') {
                                             answerText = answerTemplate.get(41);
-                                            answerText += answerTemplateOption.get(valueSelectOpt2);
-                                            console.log(`${answerText}`, functionsT3.getStudentHigherAvgScore(schoolJson, valueSelectOpt3));
+                                            answerText += `${answerTemplateOption.get(valueSelectOpt2)} ${valueSelectOpt3} es: `;
+
+                                            result = functionsT3.getStudentHigherAvgScore(schoolJson, valueSelectOpt3);
                                         }
+
+                                        spanAnswerTemplate.innerText = answerText;
+
+                                        if (typeof result == 'object') {
+                                            printObject(result, 'div-show-results');
+                                        }
+                                        else {
+                                            const spanResult = document.createElement('span');
+                                            spanResult.setAttribute('id', 'span-result');
+                                            spanResult.innerText = result;
+                                            divShowResults.appendChild(spanResult);
+                                        }
+
 
                                     }, { once: true });
                                 }
@@ -935,57 +969,64 @@ if (document.body.contains(checkSelectFunction) == true) {
                         if ((document.body.contains(checkShowButton) == true)) {
                             const showResults = document.querySelector('#show-button');
                             showResults.addEventListener('click', (eventShowResults) => {
-                                const checkDivShowResults = document.getElementById('div-Show-Results');
+                                const checkDivShowResults = document.getElementById('div-show-results');
                                 if (document.body.contains(checkDivShowResults)) {
                                     document.body.removeChild(checkDivShowResults);
                                 }
                                 const divShowResults = document.createElement('div');
                                 divShowResults.setAttribute('id', 'div-show-results');
 
-                                const pAnswerTemplate = document.createElement('p');
-                                pAnswerTemplate.setAttribute('id', 'p-answer-template');
+                                const spanAnswerTemplate = document.createElement('span');
+                                spanAnswerTemplate.setAttribute('id', 'span-answer-template');
 
-                                const pResult = document.createElement('p');
-                                pResult.setAttribute('id', 'p-result');
-
-                                divShowResults.appendChild(pAnswerTemplate);
-                                divShowResults.appendChild(pResult);
+                                divShowResults.appendChild(spanAnswerTemplate);
 
                                 document.body.appendChild(divShowResults);
 
                                 let answerText;
+                                let result;
                                 if (valueSelectOpt1 == 'calc-mean') {
 
                                     answerText = answerTemplate.get(1);
                                     answerText += answerTemplateOption.get(valueSelectOpt2);
-                                    console.log(`${answerText} ${functionsT3.getMean(schoolJson, valueSelectOpt2)}`);
+                                    result = functionsT3.getMean(schoolJson, valueSelectOpt2);
                                 }
                                 else if (valueSelectOpt1 == 'calc-mode') {
 
                                     answerText = answerTemplate.get(2);
                                     answerText += answerTemplateOption.get(valueSelectOpt2);
-                                    console.log(`${answerText} ${functionsT3.getMode(schoolJson, valueSelectOpt2)}`);
+                                    result = functionsT3.getMode(schoolJson, valueSelectOpt2);
                                 }
                                 else if (valueSelectOpt1 == 'calc-median') {
 
                                     answerText = answerTemplate.get(3);
                                     answerText += answerTemplateOption.get(valueSelectOpt2);
-                                    console.log(`${answerText} ${functionsT3.getMedian(schoolJson, valueSelectOpt2)}`);
+                                    result = functionsT3.getMedian(schoolJson, valueSelectOpt2);
                                 }
                                 else if (valueSelectOpt1 == 'show-best-scores') {
                                     if (valueSelectOpt2 == 'subjects') {
                                         answerText = answerTemplate.get(42);
-                                        console.log(`${answerText}`, functionsT3.getHigherScoresBySubject(schoolJson));
+                                        result = functionsT3.getHigherScoresBySubject(schoolJson);
                                     }
                                     else {
                                         answerText = answerTemplate.get(41);
                                         answerText += answerTemplateOption.get(valueSelectOpt2);
-                                        console.log(`${answerText}`, functionsT3.getStudentHigherAvgScore(schoolJson, valueSelectOpt2));
+                                        result = functionsT3.getStudentHigherAvgScore(schoolJson, valueSelectOpt2);
                                     }
                                 }
                                 else if (valueSelectOpt1 == 'show-student') {
-                                    answerText = answerTemplate.get(5);
-                                    console.log(`${answerText}`, functionsT3.getStudentOfGrade(schoolJson, valueSelectOpt2));
+                                    answerText = `${answerTemplate.get(5)} ${valueSelectOpt2} es: `;
+                                    result = functionsT3.getStudentOfGrade(schoolJson, valueSelectOpt2);
+                                }
+                                spanAnswerTemplate.innerText = answerText;
+                                if (typeof result == 'object') {
+                                    printObject(result, 'div-show-results');
+                                }
+                                else {
+                                    const spanResult = document.createElement('span');
+                                    spanResult.setAttribute('id', 'span-result');
+                                    spanResult.innerText = result;
+                                    divShowResults.appendChild(spanResult);
                                 }
                             }, { once: true });
                         }
@@ -997,4 +1038,3 @@ if (document.body.contains(checkSelectFunction) == true) {
 }
 
 
-//console.log(answerTemplate.get(0),answerTemplateOption.get('niños'),answerTemplateOption.get('colegio'))
