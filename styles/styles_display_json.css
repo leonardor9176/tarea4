@@ -141,6 +141,7 @@ body{
 }
 .courses-list a{
     color: black;
+    padding-right: 3.5rem;
 }
 .nav-list-div:hover .courses-list{
     display: block;
@@ -211,5 +212,16 @@ h2{
     text-transform: uppercase;
 }
 #div-show-results .object-value::first-letter{
+    text-transform: uppercase;
+}
+h3{
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 2rem;
+    font-weight: bold;
+	position: relative;
+    text-transform: uppercase;
+    padding: 1rem;   
+}
+h3::first-letter{
     text-transform: uppercase;
 }

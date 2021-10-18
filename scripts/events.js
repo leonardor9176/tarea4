@@ -18,11 +18,11 @@ function printObject(object, divContainerId) {
             const spanObjectKey = document.createElement('span');
             spanObjectKey.setAttribute('class', 'object-key2');
             spanObjectKey.innerText = `${objectKeys[key]}: `;
-            
+
             const spanObjectValue = document.createElement('span');
             spanObjectValue.setAttribute('class', 'object-value');
             spanObjectValue.innerText = `${object[objectKeys[key]]}`;
-            
+
             pObject.appendChild(spanObjectKey);
             pObject.appendChild(spanObjectValue);
             divContainer.appendChild(pObject);
@@ -30,11 +30,80 @@ function printObject(object, divContainerId) {
     }
 }
 
+// Student information display
+const navBar = document.querySelectorAll('.nav-list-div-element-course-a');//nav-list-div-element-course-a
+for (let i = 0; i < navBar.length; i++) {
+    navBar[i].addEventListener('click', (clicCourse) => {
+
+        const checkDivStudentsInformation = document.getElementById('div-Students-information');
+        if (document.body.contains(checkDivStudentsInformation)) {
+            const father = checkDivStudentsInformation.parentElement;
+            father.removeChild(checkDivStudentsInformation);
+        }
+
+        const bodyMain = document.getElementById('body-main');
+
+        const divSutudentsInformation = document.createElement('div');
+        divSutudentsInformation.setAttribute('id', 'div-Students-information');
+
+        const h2SutudentsInformation = document.createElement('h2');
+        h2SutudentsInformation.innerText = 'Información de Estudiantes';
+
+        bodyMain.appendChild(divSutudentsInformation);
+        divSutudentsInformation.appendChild(h2SutudentsInformation);
+
+        const divFilter = document.getElementById('div-filter');
+        divFilter.before(divSutudentsInformation);
+
+        const currentCourse = (clicCourse.target.innerText == 'A') ? 0 : 1;
+
+        const currentGrade = navBar[i].parentElement.parentElement.parentElement.getElementsByClassName('nav-list-div-li-a')[0].innerText.toLowerCase();
+
+        let currentStage;
+        if ((['primero', 'segundo', 'tercero', 'cuarto', 'quinto']).includes(currentGrade)) {
+            currentStage = 'primaria';
+        }
+        else {
+            currentStage = 'secundaria';
+        }
+        const courseJson = schoolJson[0].colegio[currentStage][0][currentGrade][currentCourse].estudiantes;
+        // console.log(courseJson);
+
+        const h3SutudentsInformation = document.createElement('h3');
+        h3SutudentsInformation.innerText = `${currentGrade} ${clicCourse.target.innerText}`;
+        divSutudentsInformation.appendChild(h3SutudentsInformation);
+
+        const divSutudentsInformation2 = document.createElement('div');
+        divSutudentsInformation2.setAttribute('id', 'div-Students-information-2');
+        divSutudentsInformation.appendChild(divSutudentsInformation2);
+
+        for (let student in courseJson) {
+            const pStudent = document.createElement('p');
+            pStudent.setAttribute('class', 'p-Students-information');
+            // pStudent.setAttribute('href','#');
+
+            const studentKeys = Object.keys(courseJson[student]);
+            for (let key in studentKeys) {
+                if (typeof (courseJson[student][studentKeys[key]]) != 'object') {
+                    const spanStudent = document.createElement('span');
+                    spanStudent.innerText += `${studentKeys[key]}: ${courseJson[student][studentKeys[key]]}         `;
+                    pStudent.appendChild(spanStudent);
+                }
+                
+            }
+            divSutudentsInformation2.appendChild(pStudent);
+        }
+
+    });
+}
+
+
+// searching functions actions
 const divFilter = document.getElementById('div-filter');
 
 const checkSelectFunction = document.getElementById('select-function');
 if (document.body.contains(checkSelectFunction) == true) {
- 
+
     let answerTemplate = new Map();
     answerTemplate.set(0, `El total de `);
     answerTemplate.set(1, `La media de totas las notas en `);
@@ -43,7 +112,7 @@ if (document.body.contains(checkSelectFunction) == true) {
     answerTemplate.set(41, `El estudiante con mejor nota promedio en `);
     answerTemplate.set(42, `Los estudiante con mejor nota promedio en cada materia son: `);
     answerTemplate.set(5, `Un estudiante de grado `);
-    
+
     let answerTemplateOption = new Map();
     answerTemplateOption.set('colegio', `el colegio es: `);
     answerTemplateOption.set('primaria', `primaria es: `);
@@ -79,7 +148,7 @@ if (document.body.contains(checkSelectFunction) == true) {
             formFunctionSelector.appendChild(divOption1);
             divOption1.appendChild(labelOption1);
             divOption1.appendChild(selectOption1);
-            
+
             if (valueSelectOpt1 == 'count-students') {
                 labelOption1.innerText = `¿Donde deseas realizar el conteo de estudiantes?`;
 
@@ -921,18 +990,18 @@ if (document.body.contains(checkSelectFunction) == true) {
                                             let gender = (valueSelectOpt3 == 'any') ? undefined : valueSelectOpt3;
                                             result = functionsT3.countStudents(schoolJson, valueSelectOpt2, gender);
                                         }
-                                        else if(valueSelectOpt1 == 'calc-mean') {
+                                        else if (valueSelectOpt1 == 'calc-mean') {
 
                                             answerText = answerTemplate.get(1);
                                             answerText += `${answerTemplateOption.get(valueSelectOpt2)} ${valueSelectOpt3} es: `;
-                                            
+
                                             result = functionsT3.getMean(schoolJson, valueSelectOpt3);
                                         }
                                         else if (valueSelectOpt1 == 'calc-mode') {
 
                                             answerText = answerTemplate.get(2);
                                             answerText += `${answerTemplateOption.get(valueSelectOpt2)} ${valueSelectOpt3} es: `;
-                                            
+
                                             result = functionsT3.getMode(schoolJson, valueSelectOpt3);
                                         }
                                         else if (valueSelectOpt1 == 'calc-median') {
